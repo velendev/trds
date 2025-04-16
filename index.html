@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robert AI Trader</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #22d3ee;
+    }
+    .box {
+      background-color: #1e293b;
+      border: 2px solid #22d3ee;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+    button {
+      background-color: #22d3ee;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .rsi {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Robert AI Trader</h1>
+  <div class="box" id="btcBox">
+    <h2>BTC/USD</h2>
+    <div class="rsi" id="btcRsi">Caricamento...</div>
+  </div>
+  <div class="box" id="xauBox">
+    <h2>XAU/USD</h2>
+    <div class="rsi" id="xauRsi">Caricamento...</div>
+  </div>
+  <button onclick="caricaAnalisi()">Analizza Ora</button>
+
+  <script>
+    async function caricaAnalisi() {
+      try {
+        const response = await fetch('dati.json');
+        const data = await response.json();
+
+        document.getElementById('btcRsi').textContent = data.btc;
+        document.getElementById('xauRsi').textContent = data.xau;
+      } catch (error) {
+        alert("Errore nel caricamento dei dati");
+      }
+    }
+  </script>
+</body>
+</html>
