@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
+<!DOCTYPE html><html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,6 +36,11 @@
       font-size: 1.2em;
       margin-top: 10px;
     }
+    .target {
+      font-size: 0.95em;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -48,10 +52,9 @@
   <div class="box" id="xauBox">
     <h2>XAU/USD</h2>
     <div class="rsi" id="xauRsi">Caricamento...</div>
+    <div class="target" id="xauTargets"></div>
   </div>
-  <button onclick="caricaAnalisi()">Analizza Ora</button>
-
-  <script>
+  <button onclick="caricaAnalisi()">Analizza Ora</button> <script>
     async function caricaAnalisi() {
       try {
         const response = await fetch('dati.json');
@@ -59,10 +62,23 @@
 
         document.getElementById('btcRsi').textContent = data.btc;
         document.getElementById('xauRsi').textContent = data.xau;
+
+        if (data.xau.includes("Probabilità discesa")) {
+          document.getElementById('xauTargets').innerHTML = `
+            <strong>Target:</strong> 3345 / 3330<br>
+            <strong>Stop Loss:</strong> sopra 3357
+          `;
+        } else if (data.xau.includes("Probabilità salita")) {
+          document.getElementById('xauTargets').innerHTML = `
+            <strong>Target:</strong> 3370 / 3390<br>
+            <strong>Stop Loss:</strong> sotto 3335
+          `;
+        } else {
+          document.getElementById('xauTargets').innerHTML = "";
+        }
       } catch (error) {
         alert("Errore nel caricamento dei dati");
       }
     }
-  </script>
-</body>
+  </script></body>
 </html>
